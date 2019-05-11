@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import ModelsList from './components/ModelsList'
 
 const data = {
   "Ivel Z3": {
@@ -25,16 +26,19 @@ const data = {
 }
 
 class App extends React.Component {
+  state = { name : null}
 
-  render() {   
+  updateSelection = (event) => {
+    this.setState({
+      name: event.target.value
+    })
+  }
+  
+  render() {  
+    console.log(this.state);
     return (
       <div className="App">
-        <select>
-          <option value="">-- pick a model --</option>
-          {Object.keys(data).map(key =>
-            <option key={key} value={key}>{key} ({data[key].year})</option>
-          )} 
-        </select>
+        <ModelsList data={data} updateSelection = {this.updateSelection}/>
       </div>
     )
   }
@@ -43,7 +47,4 @@ class App extends React.Component {
 
 export default App;
 
-// .then(response => {
-//   const breeds = Object.keys(response.body.message)
-//   this.updateBreeds(breeds)
-// })
+
