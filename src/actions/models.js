@@ -4,8 +4,8 @@ export function addModel(name, model) {
   return {
     type: ADD_MODEL,
     payload: {
-      name,
-      model
+      ...model,
+      name
     }
   }
 }
