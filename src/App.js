@@ -28,32 +28,37 @@ const data = {
   }
 }
 
-let selectedModel = null;
-let selectedName = null;
-
 class App extends React.Component {
-  state={name: null}
+  state={
+    name: null,
+    value:null
+  }
  
   updateSelection = (event) => { 
-    selectedModel = data[event.target.value]
-    selectedName = event.target.value
-    this.setState({name:event.target.value})
-
+    this.setState({
+      name:event.target.value, 
+      value:data[event.target.value]
+    })
   }
 
-  addDetails = () => {
-    if(selectedModel){
-      this.props.addModel(selectedName,selectedModel)
+  addDetails = (event) => {
+    if(this.state.value){
+      if(!this.props.models.find(a => a.name === this.state.name)){
+        this.props.addModel(this.state.name, this.state.value)
+      }
+      
     }
-    
+    event.preventDefault();
   }
 
   render() {  
     return (
       <div className="App">
+        <form onSubmit={this.addDetails}>
         <ModelsList  data={data} updateSelection = {this.updateSelection}/>
-        <button onClick={this.addDetails}> Add </button>
+        <input type='submit' value='Add' />
         <ModelDetails models={this.props.models} />
+        </form>
       </div>
     )
   } 
