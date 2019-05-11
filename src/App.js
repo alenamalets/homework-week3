@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import ModelsList from './components/ModelsList'
+import {addModel} from './actions/models'
+import { connect } from 'react-redux'
 
 const data = {
   "Ivel Z3": {
@@ -26,25 +28,35 @@ const data = {
 }
 
 class App extends React.Component {
-  state = { name : null}
+  state = {
+     name : null
+  }
 
   updateSelection = (event) => {
-    this.setState({
-      name: event.target.value
-    })
+    // this.setState({
+    //   name: event.target.value
+    // })  
+   
+    
+    this.props.addModel(data[event.target.value])
   }
-  
+
+
   render() {  
-    console.log(this.state);
     return (
       <div className="App">
-        <ModelsList data={data} updateSelection = {this.updateSelection}/>
+        <ModelsList name={this.state.name} data={data} updateSelection = {this.updateSelection}/>
+        <button onClick=''> Add </button>
       </div>
     )
-  }
-  
+  } 
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  models: state
+})
+
+export default connect(mapStateToProps, {addModel})(App)
+
 
 
